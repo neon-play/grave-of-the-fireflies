@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Neon Anime Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { margin:0; font-family:'Segoe UI',Arial,sans-serif; background:#0d0d0d; color:white; text-align:center; }
+h1 { color:#00ffcc; margin-top:20px; }
+
+.episode-btn { margin:10px; padding:12px 20px; border:none; border-radius:10px; background:#00ffcc; color:#000; font-weight:bold; cursor:pointer; transition:.2s; }
+.episode-btn:hover { background:#00ddb3; }
+
+#lockScreen { max-width:400px; margin:100px auto; background:#151515; padding:30px; border-radius:15px; box-shadow:0 0 25px rgba(0,0,0,0.7); }
+#lockScreen input { width:80%; padding:12px; border-radius:8px; border:none; margin-top:20px; }
+#lockScreen button { margin-top:15px; padding:12px 25px; }
+
+#videoSection { max-width:900px; margin:30px auto 50px auto; display:none; }
+
+.player { position:relative; padding-top:56.25%; border-radius:12px; overflow:hidden; background:black; }
+.player iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+
+#episodeSelector { margin-top:20px; display:flex; flex-wrap:wrap; justify-content:center; }
+
+#controls { margin-top:15px; }
+.control-btn { padding:10px 18px; margin:5px; border:none; border-radius:8px; background:#00ffcc; color:#000; font-weight:bold; cursor:pointer; }
+.control-btn:hover { background:#00ddb3; }
+
+footer { margin-top:50px; font-size:12px; color:#777; }
+</style>
+
+<script>
+const correctPassword = "Bash1024";
+
+function checkPassword(){
+  const input = document.getElementById("password").value;
+  if(input === correctPassword){
+    sessionStorage.setItem("unlocked","true");
+    showVideoPage();
+  } else {
+    alert("Wrong password!");
+  }
+}
+
+function showVideoPage(){
+  document.getElementById("lockScreen").style.display="none";
+  document.getElementById("videoSection").style.display="block";
+}
+
+function togglePassword(){
+  const passInput = document.getElementById("password");
+  const btn = document.getElementById("toggleBtn");
+  if(passInput.type==="password"){
+    passInput.type="text";
+    btn.innerText="Hide Password";
+  } else {
+    passInput.type="password";
+    btn.innerText="Show Password";
+  }
+}
+
+window.onload = function(){
+  if(sessionStorage.getItem("unlocked")) showVideoPage();
+}
+
+const episodes = {
+  1:"https://hindianimezone.p2pplay.online/#s13ytm",
+  2:"https://hindianimezone.p2pplay.online/#trlmhf",
+  3:"https://hindianimezone.p2pplay.online/#yozkgl",
+  4:"https://hindianimezone.p2pplay.online/#qpdc6s"
+};
+
+function playEpisode(id){
+  document.getElementById("videoPlayer").src = episodes[id];
+}
+
+function toggleFullScreen(){
+  const player = document.getElementById("playerContainer");
+  if(!document.fullscreenElement){
+    player.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+</script>
+</head>
+
+<body>
+
+<div id="lockScreen">
+  <h1>Neon Anime Official 🔒</h1>
+  <input type="password" id="password" placeholder="Enter Password">
+  <br>
+  <button id="toggleBtn" onclick="togglePassword()">Show Password</button>
+  <br>
+  <button onclick="checkPassword()">Unlock</button>
+</div>
+
+<div id="videoSection">
+
+  <h1>Neon Anime Player</h1>
+
+  <div class="player" id="playerContainer">
+    <!-- ❌ SANDBOX REMOVED HERE -->
+    <iframe
+      id="videoPlayer"
+      src=""
+      allowfullscreen
+      allow="autoplay; encrypted-media">
+    </iframe>
+  </div>
+
+  <div id="controls">
+    <button class="control-btn" onclick="toggleFullScreen()">Toggle Fullscreen</button>
+  </div>
+
+  <div id="episodeSelector">
+    <button class="episode-btn" onclick="playEpisode(1)">Episode Ⅰ</button>
+    <button class="episode-btn" onclick="playEpisode(2)">Episode Ⅱ</button>
+    <button class="episode-btn" onclick="playEpisode(3)">Episode Ⅲ</button>
+    <button class="episode-btn" onclick="playEpisode(4)">Episode Ⅳ</button>
+  </div>
+
+</div>
+
+<footer>© 2026 Anime-Critic • All rights belong to their respective owners</footer>
+
+</body>
+</html>
